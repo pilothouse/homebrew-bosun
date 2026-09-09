@@ -1,0 +1,37 @@
+cask "bosun" do
+  # TODO: no release exists yet. On the first release, set both of these from the output of
+  # sign-release.sh in the bosun-docs repo, which prints the sha256 when it finishes.
+  version "0.1.0"
+  sha256 "0000000000000000000000000000000000000000000000000000000000000000"
+
+  # The asset filename is not versioned, only the tag is. package-app.sh always writes "Bosun.dmg".
+  url "https://github.com/pilothouse/bosun/releases/download/v#{version}/Bosun.dmg"
+  name "Bosun"
+  desc "Console for GitHub and coding agents"
+  homepage "https://bosun.anvas.dev/"
+
+  livecheck do
+    url :url
+    strategy :github_latest
+  end
+
+  # Bosun updates itself through Sparkle. Telling Homebrew that stops `brew upgrade` from fighting an
+  # app that has already updated in place, and stops it reporting a version mismatch as an error.
+  auto_updates true
+  # Package.swift declares .macOS(.v13). In a cask this reads as "Ventura or newer".
+  depends_on macos: :ventura
+
+  app "Bosun.app"
+
+  # Everything the app writes outside its own bundle. The Application Support directory is lowercase
+  # "bosun" and holds connections.json, connections-sync.json, github-cache.json and avatars/.
+  # The rest are keyed on the bundle identifier, dev.anvas.bosun.
+  zap trash: [
+    "~/Library/Application Support/bosun",
+    "~/Library/Caches/Bosun",
+    "~/Library/Caches/dev.anvas.bosun",
+    "~/Library/HTTPStorages/dev.anvas.bosun",
+    "~/Library/Preferences/dev.anvas.bosun.plist",
+    "~/Library/Saved Application State/dev.anvas.bosun.savedState",
+  ]
+end
