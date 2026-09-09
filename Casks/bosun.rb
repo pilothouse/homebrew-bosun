@@ -1,8 +1,11 @@
 cask "bosun" do
-  # TODO: no release exists yet. On the first release, set both of these to match the signed
-  # Bosun.dmg attached to that release: `shasum -a 256 Bosun.dmg`.
-  version "0.1.0"
-  sha256 "0000000000000000000000000000000000000000000000000000000000000000"
+  # Both must match the SIGNED Bosun.dmg attached to the release, not a local build — a local one
+  # hashes differently and every install then fails on the checksum. `release.sh` prints the sha256
+  # when it finishes; otherwise take it from the release itself:
+  #   shasum -a 256 <(curl -fsSL "$(gh release view v1.0.0 --repo pilothouse/bosun --json assets \
+  #     --jq '.assets[]|select(.name=="Bosun.dmg").url')")
+  version "1.0.0"
+  sha256 "854e877040057ba0850ff2a8d80018feaa4e6ad17ffd4ea68894439aae4db816"
 
   # The asset filename is not versioned, only the tag is. package-app.sh always writes "Bosun.dmg".
   url "https://github.com/pilothouse/bosun/releases/download/v#{version}/Bosun.dmg"
@@ -20,6 +23,11 @@ cask "bosun" do
   auto_updates true
   # Package.swift declares .macOS(.v13). In a cask this reads as "Ventura or newer".
   depends_on macos: :ventura
+  # Apple Silicon only. release.yml builds on the runner's native arch and ships a single-slice
+  # arm64 binary, so on an Intel Mac the app installs happily and then refuses to launch. Declaring
+  # the constraint turns that into an install-time error that says why. Drop this line when the DMG
+  # becomes universal (needs a zig cross-compile of libghostty).
+  depends_on arch: :arm64
 
   app "Bosun.app"
 
