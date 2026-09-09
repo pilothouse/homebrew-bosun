@@ -47,12 +47,10 @@ brew zap --cask bosun
 
 ## Updating the cask on a new release
 
-Bosun is signed and notarized by hand. Full process is in
-[bosun-docs](https://github.com/pilothouse/bosun-docs/blob/main/docs/release.md). Once a release is
-published, update this tap:
+Bosun is signed and notarized by hand before a release is published. Once it is published, update
+this tap:
 
-1. Get the version and the sha256. `scripts/sign-release.sh` in bosun-docs prints the sha256 when it
-   finishes. To work it out from a published release instead:
+1. Get the version and the sha256 of the `Bosun.dmg` attached to the release:
 
    ```bash
    shasum -a 256 Bosun.dmg

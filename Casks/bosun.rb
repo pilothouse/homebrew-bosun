@@ -1,6 +1,6 @@
 cask "bosun" do
-  # TODO: no release exists yet. On the first release, set both of these from the output of
-  # sign-release.sh in the bosun-docs repo, which prints the sha256 when it finishes.
+  # TODO: no release exists yet. On the first release, set both of these to match the signed
+  # Bosun.dmg attached to that release: `shasum -a 256 Bosun.dmg`.
   version "0.1.0"
   sha256 "0000000000000000000000000000000000000000000000000000000000000000"
 
