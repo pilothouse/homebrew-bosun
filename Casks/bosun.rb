@@ -4,8 +4,8 @@ cask "bosun" do
   # when it finishes; otherwise take it from the release itself:
   #   shasum -a 256 <(curl -fsSL "$(gh release view v1.0.0 --repo pilothouse/bosun --json assets \
   #     --jq '.assets[]|select(.name=="Bosun.dmg").url')")
-  version "1.0.0"
-  sha256 "854e877040057ba0850ff2a8d80018feaa4e6ad17ffd4ea68894439aae4db816"
+  version "1.1.0"
+  sha256 "b1689e8978cb4c388ee13da6363dc10995d099f104b98ef6f4028cf888a17b5b"
 
   # The asset filename is not versioned, only the tag is. package-app.sh always writes "Bosun.dmg".
   url "https://github.com/pilothouse/bosun/releases/download/v#{version}/Bosun.dmg"
